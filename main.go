@@ -134,11 +134,11 @@ func main() {
 			inputDataset := &args[0]
 
 			// Create the tree output file by using the input dataset.
-			schema, err := schematree.Create(*inputDataset, uint64(firstNsubjects), false, 0)
+			schema := schematree.Create(*inputDataset, uint64(firstNsubjects), false, 0)
+			err := schema.Save(*inputDataset + ".schemaTree.bin")
 			if err != nil {
 				log.Panicln(err)
 			}
-
 			if writeOutPropertyFreqs {
 				propFreqsPath := *inputDataset + ".propertyFreqs.csv"
 				schema.WritePropFreqs(propFreqsPath)
@@ -169,11 +169,11 @@ func main() {
 			inputDataset := &args[0]
 
 			// Create the tree output file by using the input dataset.
-			schema, err := schematree.Create(*inputDataset, uint64(firstNsubjects), true, 0)
+			schema := schematree.Create(*inputDataset, uint64(firstNsubjects), true, 0)
+			err := schema.Save(*inputDataset + ".schemaTree.typed.bin")
 			if err != nil {
 				log.Panicln(err)
 			}
-
 			if writeOutPropertyFreqs {
 				propFreqsPath := *inputDataset + ".propertyFreqs.csv"
 				schema.WritePropFreqs(propFreqsPath)

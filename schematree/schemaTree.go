@@ -22,18 +22,13 @@ type SchemaTree struct {
 }
 
 // Create creates a new schema tree from given dataset with given first n subjects, typed and minSup
-func Create(filename string, firstNsubjects uint64, typed bool, minSup uint32) (*SchemaTree, error) {
+func Create(filename string, firstNsubjects uint64, typed bool, minSup uint32) (*SchemaTree) {
 
 	schema := New(typed, minSup)
 	schema.TwoPass(filename, uint64(firstNsubjects))
-	var err error
-	if typed {
-		err = schema.Save(filename + ".schemaTree.typed.bin")
-	} else {
-		err = schema.Save(filename + ".schemaTree.bin")
-	}
+
 	PrintMemUsage()
-	return schema, err
+	return schema
 }
 
 // New returns a newly allocated and initialized schema tree
