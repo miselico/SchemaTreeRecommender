@@ -7,7 +7,7 @@ import (
 )
 
 func TestRecommender(t *testing.T) {
-	schema, err := ST.Load(treePath)
+	schema, err := ST.LoadGob(treePath)
 
 	if err != nil {
 		t.Errorf("Schematree could not be loaded")
@@ -27,7 +27,7 @@ func TestRecommender(t *testing.T) {
 
 func TestAvgMerger(t *testing.T) {
 
-	schema, err := ST.Load(treePath)
+	schema, err := ST.LoadGob(treePath)
 
 	if err != nil {
 		t.Errorf("Schematree could not be loaded")
@@ -64,7 +64,7 @@ func TestAvgMerger(t *testing.T) {
 
 func TestMaxMerger(t *testing.T) {
 
-	schema, err := ST.Load(treePath)
+	schema, err := ST.LoadGob(treePath)
 
 	if err != nil {
 		t.Errorf("Schematree could not be loaded")

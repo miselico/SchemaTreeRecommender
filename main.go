@@ -135,7 +135,7 @@ func main() {
 
 			// Create the tree output file by using the input dataset.
 			schema := schematree.Create(*inputDataset, uint64(firstNsubjects), false, 0)
-			err := schema.Save(*inputDataset + ".schemaTree.bin")
+			err := schema.SaveGob(*inputDataset + ".schemaTree.bin")
 			if err != nil {
 				log.Panicln(err)
 			}
@@ -170,7 +170,7 @@ func main() {
 
 			// Create the tree output file by using the input dataset.
 			schema := schematree.Create(*inputDataset, uint64(firstNsubjects), true, 0)
-			err := schema.Save(*inputDataset + ".schemaTree.typed.bin")
+			err := schema.SaveGob(*inputDataset + ".schemaTree.typed.bin")
 			if err != nil {
 				log.Panicln(err)
 			}
@@ -232,7 +232,7 @@ func main() {
 			glossaryBinary := &args[1]
 
 			// Load the schematree from the binary file.
-			model, err := schematree.Load(*modelBinary)
+			model, err := schematree.LoadGob(*modelBinary)
 			if err != nil {
 				log.Panicln(err)
 			}
@@ -293,7 +293,7 @@ func main() {
 			treeBinary := &args[0]
 
 			// Load the schematree from the binary file.
-			schema, err := schematree.Load(*treeBinary)
+			schema, err := schematree.LoadGob(*treeBinary)
 			if err != nil {
 				log.Panicln(err)
 			}

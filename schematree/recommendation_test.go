@@ -20,7 +20,7 @@ func (ps PropertyRecommendations) contains(str string, prob float64) bool {
 
 func TestRecommend(t *testing.T) {
 
-	tree, _ := Load(typedTreepath)
+	tree, _ := LoadGob(typedTreepath)
 
 	t.Run("one type", func(t *testing.T) {
 		list := tree.Recommend([]string{}, []string{"http://www.wikidata.org/entity/Q515"}) // City
@@ -38,7 +38,7 @@ func TestRecommend(t *testing.T) {
 
 func TestRecommendProperty(t *testing.T) {
 
-	tree, _ := Load(typedTreepath)
+	tree, _ := LoadGob(typedTreepath)
 	pMap := tree.PropMap
 
 	t.Run("Only type property", func(t *testing.T) {

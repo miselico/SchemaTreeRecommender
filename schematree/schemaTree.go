@@ -10,6 +10,9 @@ import (
 	"sync"
 	"time"
 
+	"github.com/lgleim/SchemaTreeRecommender/schematree/serialization"
+	"google.golang.org/protobuf/proto"
+
 	gzip "github.com/klauspost/pgzip"
 )
 
@@ -22,7 +25,7 @@ type SchemaTree struct {
 }
 
 // Create creates a new schema tree from given dataset with given first n subjects, typed and minSup
-func Create(filename string, firstNsubjects uint64, typed bool, minSup uint32) (*SchemaTree) {
+func Create(filename string, firstNsubjects uint64, typed bool, minSup uint32) *SchemaTree {
 
 	schema := New(typed, minSup)
 	schema.TwoPass(filename, uint64(firstNsubjects))
@@ -133,8 +136,66 @@ func (tree *SchemaTree) Support(properties IList) uint32 {
 	return support
 }
 
-// Save stores a binarized version of the schematree to the given filepath
-func (tree *SchemaTree) Save(filePath string) error {
+func (tree *SchemaTree) SaveProtocolBuffer(filePath string) error {
+	t1 := time.Now()
+	fmt.Printf("Writing schema to protocol buffer file %v... ", filePath)
+
+	pb_tree := &serialization.SchemaTree{}
+
+	// encode propMap
+	pb_propmap := &serialization.PropMap{}
+	// first get them in order
+	props := make([]*IItem, len(tree.PropMap), len(tree.PropMap))
+	for _, p := range tree.PropMap {
+		props[int(p.SortOrder)] = p
+	}
+	//then store them in order
+	for _, p := range props {
+		pb_propmap_item := &serialization.PropMapItem{
+			Str:        *p.Str,
+			TotalCount: p.TotalCount,
+			SortOrder:  p.SortOrder,
+		}
+		pb_propmap.Items = append(pb_propmap.Items, pb_propmap_item)
+	}
+
+	pb_tree.PropMap = pb_propmap
+	// encode MinSup
+
+	pb_tree.MinSup = tree.MinSup
+
+	// encode root
+	var root *serialization.SchemaNode = tree.Root.AsProtoSchemaNode()
+
+	pb_tree.Root = root
+
+	// encode Typed
+	if tree.Typed {
+		pb_tree.Options = []serialization.Options{serialization.Options_TYPED}
+	} else {
+		//no action needed. The default is an empty option list, wich is fine
+	}
+
+	out, err := proto.Marshal(pb_tree)
+	if err != nil {
+		return err
+	}
+	// TODO check whether gzip compression helps
+
+	if err := os.WriteFile(filePath, out, 0644); err != nil {
+		log.Fatalln("Failed to write address book:", err)
+	}
+
+	if err == nil {
+		fmt.Printf("done (%v)\n", time.Since(t1))
+	} else {
+		fmt.Printf("Saving schema failed with error: %v\n", err)
+	}
+	return err
+}
+
+// SaveGob stores a binarized version of the schematree to the given filepath
+func (tree *SchemaTree) SaveGob(filePath string) error {
 	t1 := time.Now()
 	fmt.Printf("Writing schema to file %v... ", filePath)
 
@@ -189,8 +250,65 @@ func (tree *SchemaTree) Save(filePath string) error {
 	return err
 }
 
-// Load loads a binarized SchemaTree from disk
-func Load(filePath string) (*SchemaTree, error) {
+func LoadProtocolBuffer(filePath string) (*SchemaTree, error) {
+	fmt.Printf("Loading schema (from file %v): ", filePath)
+	in, err := os.ReadFile(filePath)
+	if err != nil {
+		log.Fatalln("Error reading file:", err)
+	}
+	return loadProtocolBuffer(in)
+}
+
+func loadProtocolBuffer(in []byte) (*SchemaTree, error) {
+	t1 := time.Now()
+	pb_tree := &serialization.SchemaTree{}
+	if err := proto.Unmarshal(in, pb_tree); err != nil {
+		return nil, err
+	}
+
+	tree := New(false, 1)
+
+	// decode propMap
+	var props []*IItem
+
+	for _, pb_item := range pb_tree.PropMap.Items {
+		// This sortorder was overwritten in the gob implementation, but that seems unnecesary.
+		// sortOrder was the index in the items array, but that is already set in the item anyway
+		// item.SortOrder = uint32(sortOrder)
+		tree.PropMap[pb_item.Str] = &IItem{
+			Str:        &pb_item.Str,
+			TotalCount: pb_item.TotalCount,
+			SortOrder:  pb_item.SortOrder,
+			// TODO: check whether it is okay to not have the traverselpointer here
+			traversalPointer: nil,
+		}
+	}
+	fmt.Printf("%v properties... ", len(props))
+
+	// decode MinSup
+	tree.MinSup = pb_tree.MinSup
+
+	// decode Root
+	fmt.Printf("decoding tree...")
+	tree.Root = *FromProtoSchemaNode(pb_tree.Root, props)
+
+	//decode Typed
+	for _, option := range pb_tree.Options {
+		switch option {
+		case serialization.Options_TYPED:
+			tree.Typed = true
+		default:
+			log.Fatal("Unknown option in protocol buffer tree")
+		}
+	}
+
+	fmt.Println("Time for decoding ", time.Since(t1), " seconds")
+	return tree, nil
+
+}
+
+// LoadGob loads a binarized SchemaTree from disk
+func LoadGob(filePath string) (*SchemaTree, error) {
 	// Alternatively via GobDecoder(...): https://stackoverflow.com/a/12854659
 
 	fmt.Printf("Loading schema (from file %v): ", filePath)

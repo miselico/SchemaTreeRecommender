@@ -61,14 +61,14 @@ func TestTwoPass(t *testing.T) {
 func TestLoad(t *testing.T) {
 
 	t.Run("TypedSchemaTree", func(t *testing.T) {
-		tree, _ := Load("../testdata/10M.nt.gz.schemaTree.typed.bin")
+		tree, _ := LoadGob("../testdata/10M.nt.gz.schemaTree.typed.bin")
 		assert.EqualValues(t, 1497, len(tree.PropMap))
 		assert.EqualValues(t, 1, tree.MinSup)
 		assert.True(t, tree.Typed)
 
 	})
 	t.Run("UnTypedSchemaTree", func(t *testing.T) {
-		tree, _ := Load("../testdata/10M.nt.gz.schemaTree.bin")
+		tree, _ := LoadGob("../testdata/10M.nt.gz.schemaTree.bin")
 		assert.EqualValues(t, 1242, len(tree.PropMap))
 		assert.EqualValues(t, 1, tree.MinSup)
 		assert.False(t, tree.Typed)
@@ -77,7 +77,7 @@ func TestLoad(t *testing.T) {
 }
 
 func TestInsert(t *testing.T) {
-	tree, _ := Load("../testdata/10M.nt.gz.schemaTree.typed.bin")
+	tree, _ := LoadGob("../testdata/10M.nt.gz.schemaTree.typed.bin")
 
 	properties := make(map[*IItem]uint32)
 	prop1 := tree.PropMap.get("http://www.wikidata.org/prop/direct/P31")

@@ -11,7 +11,7 @@ import (
 // with schematree in ../testdata/10M.nt.gz.schemaTree.bin
 func batchConfigBenchmark(treePath string, configs int, typed bool, handler string) (eval []evalSummary, err error) {
 
-	schema, err := schematree.Load(treePath)
+	schema, err := schematree.LoadGob(treePath)
 	if err != nil {
 		return nil, err
 	}

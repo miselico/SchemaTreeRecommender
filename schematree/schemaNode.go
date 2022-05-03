@@ -7,6 +7,8 @@ import (
 	"sync"
 	"sync/atomic"
 	"unsafe"
+
+	"github.com/lgleim/SchemaTreeRecommender/schematree/serialization"
 )
 
 // SchemaNode is a nodes of the Schema FP-Tree
@@ -22,6 +24,24 @@ type SchemaNode struct {
 func newRootNode(pMap propMap) SchemaNode {
 	// return schemaNode{newRootiItem(), nil, make(map[*iItem]*schemaNode), nil, 0, nil}
 	return SchemaNode{pMap.get("root"), nil, []*SchemaNode{}, nil, 0}
+}
+
+//writeGob encodes the schema node into a binary representation
+func (node *SchemaNode) AsProtoSchemaNode() *serialization.SchemaNode {
+
+	pb_node := serialization.SchemaNode{
+		SortOrder: node.ID.SortOrder,
+		Support:   node.Support,
+	}
+
+	// Children
+	pb_children := []*serialization.SchemaNode{}
+	for _, child := range node.Children {
+		pb_child := child.AsProtoSchemaNode()
+		pb_children = append(pb_children, pb_child)
+	}
+
+	return &pb_node
 }
 
 //writeGob encodes the schema node into a binary representation
@@ -51,6 +71,31 @@ func (node *SchemaNode) writeGob(e *gob.Encoder) error {
 	}
 
 	return nil
+}
+
+func FromProtoSchemaNode(pb_node *serialization.SchemaNode, props []*IItem) *SchemaNode {
+	// function scoping to allow for garbage collection
+	// err := func() error {
+	// ID
+
+	node := &SchemaNode{}
+	node.ID = props[pb_node.SortOrder]
+
+	// traversal pointer repopulation
+	node.nextSameID = node.ID.traversalPointer
+	node.ID.traversalPointer = node
+
+	// Support
+	node.Support = pb_node.Support
+
+	// Children
+	for _, pb_child := range pb_node.Children {
+		child := FromProtoSchemaNode(pb_child, props)
+		child.parent = node
+		node.Children = append(node.Children, child)
+	}
+
+	return node
 }
 
 // decodeGob decodes the schema node from its binary representation

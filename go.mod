@@ -9,6 +9,7 @@ require (
 	github.com/spf13/cobra v1.4.0
 	github.com/stretchr/testify v1.7.1
 	gopkg.in/cheggaaa/pb.v1 v1.0.28
+	google.golang.org/protobuf v1.28.0
 )
 
 require (

@@ -132,7 +132,7 @@ func main() {
 			if *trainedModel == "" {
 				log.Fatalln("A model must be provided!")
 			}
-			tree, err := schematree.Load(*trainedModel)
+			tree, err := schematree.LoadGob(*trainedModel)
 			if err != nil {
 				log.Fatalln(err)
 			}
