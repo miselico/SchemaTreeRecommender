@@ -1,9 +1,10 @@
 package main
 
 import (
-	"recommender/schematree"
 	"sort"
 	"sync"
+
+	"github.com/lgleim/SchemaTreeRecommender/schematree"
 )
 
 // Handlers are methods that receive a set of properties (in the form of a subject summary -

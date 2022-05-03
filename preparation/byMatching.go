@@ -3,7 +3,7 @@ package preparation
 import (
 	"bytes"
 
-	recIO "recommender/io"
+	recIO "github.com/lgleim/SchemaTreeRecommender/io"
 )
 
 // SplitByPrefixStats are the stats related to the split operation.

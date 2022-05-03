@@ -2,9 +2,10 @@ package backoff
 
 import (
 	"fmt"
-	ST "recommender/schematree"
 	"strconv"
 	"testing"
+
+	ST "github.com/lgleim/SchemaTreeRecommender/schematree"
 )
 
 var treePath = "../testdata/10M.nt.gz.schemaTree.bin"

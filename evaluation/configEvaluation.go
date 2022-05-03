@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"recommender/configuration"
-	"recommender/schematree"
+
+	"github.com/lgleim/SchemaTreeRecommender/configuration"
+	"github.com/lgleim/SchemaTreeRecommender/schematree"
 )
 
 // Run all config files defined in ./configs and create a results csv table in ./

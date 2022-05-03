@@ -16,12 +16,13 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	rio "recommender/io"
 	"runtime"
 	"strings"
 	"sync"
 	"time"
 	"unicode/utf8"
+
+	rio "github.com/lgleim/SchemaTreeRecommender/io"
 
 	gzip "github.com/klauspost/pgzip"
 

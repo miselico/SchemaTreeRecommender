@@ -5,7 +5,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
-	"recommender/configuration"
+
+	"github.com/lgleim/SchemaTreeRecommender/configuration"
 )
 
 type creater struct {

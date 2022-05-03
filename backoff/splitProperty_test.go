@@ -1,8 +1,9 @@
 package backoff
 
 import (
-	ST "recommender/schematree"
 	"testing"
+
+	ST "github.com/lgleim/SchemaTreeRecommender/schematree"
 )
 
 func TestRecommender(t *testing.T) {

@@ -1,7 +1,7 @@
 package glossary
 
 import (
-	"recommender/schematree"
+	"github.com/lgleim/SchemaTreeRecommender/schematree"
 )
 
 // LabeledRecommendation are recommendations with glossary information attached

@@ -4,9 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"recommender/backoff"
-	"recommender/schematree"
-	"recommender/strategy"
+
+	"github.com/lgleim/SchemaTreeRecommender/backoff"
+	"github.com/lgleim/SchemaTreeRecommender/schematree"
+	"github.com/lgleim/SchemaTreeRecommender/strategy"
 
 	"github.com/pkg/errors"
 )

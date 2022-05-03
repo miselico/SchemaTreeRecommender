@@ -6,10 +6,10 @@ import (
 	"net/http"
 	"time"
 
-	"recommender/assessment"
-	"recommender/glossary"
-	"recommender/schematree"
-	"recommender/strategy"
+	"github.com/lgleim/SchemaTreeRecommender/assessment"
+	"github.com/lgleim/SchemaTreeRecommender/glossary"
+	"github.com/lgleim/SchemaTreeRecommender/schematree"
+	"github.com/lgleim/SchemaTreeRecommender/strategy"
 )
 
 // RecommenderRequest is the data representation of the request input in json.

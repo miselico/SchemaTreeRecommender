@@ -1,8 +1,9 @@
 package main
 
 import (
-	"recommender/configuration"
 	"testing"
+
+	"github.com/lgleim/SchemaTreeRecommender/configuration"
 )
 
 func TestReadWriteConfigFile(t *testing.T) {
