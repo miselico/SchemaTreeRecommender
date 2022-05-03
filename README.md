@@ -3,7 +3,7 @@
 [![Build Status](https://git.rwth-aachen.de/kglab2019/recommender/badges/master/pipeline.svg)](https://git.rwth-aachen.de/kglab2019/recommender/commits/master)
 [![GitHub issues](https://img.shields.io/github/issues/lgleim/SchemaTreeRecommender)](https://github.com/lgleim/SchemaTreeRecommender/issues)
 [![Test Coverage](https://git.rwth-aachen.de/kglab2019/recommender/badges/master/coverage.svg)](https://git.rwth-aachen.de/kglab2019/recommender/commits/master)
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) 
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 Individual descriptions in subfolders.
 
@@ -14,7 +14,7 @@ Further documentation and an evaluation of this project can be found in our [ESW
 Cite as:
 
 ```
-Gleim L.C. et al. (2020) SchemaTree: Maximum-Likelihood Property Recommendation for Wikidata. 
+Gleim L.C. et al. (2020) SchemaTree: Maximum-Likelihood Property Recommendation for Wikidata.
 In: Harth A. et al. (eds) The Semantic Web. ESWC 2020. Lecture Notes in Computer Science, vol 12123. Springer, Cham
 ```
 
@@ -55,7 +55,7 @@ Or via BibTeX:
 1. Run `go build .` in this folder to build the executable
 1. Run `go install .` to install the executable in the $PATH
 
-## Example 
+## Example
 
 ```bash
 
@@ -67,23 +67,23 @@ Or via BibTeX:
 
 # Split the dataset for wikidata items and properties
 # (TODO: The handcrafted dataset has to be improved  with a better combination of entries)
-./recommender split-dataset by-prefix ./testdata/handcrafted.nt
+./SchemaTreeRecommender split-dataset by-prefix ./testdata/handcrafted.nt
 
 # Prepare the dataset and build the Schema Tree (typed variant) (the sort is only required for future 1-in-n splits)
-./recommender filter-dataset for-schematree ./testdata/handcrafted-item.nt.gz 
+./SchemaTreeRecommender filter-dataset for-schematree ./testdata/handcrafted-item.nt.gz
 gzip -cd ./testdata/handcrafted-item-filtered.nt.gz | sort | gzip > ./testdata/handcrafted-item-filtered-sorted.nt.gz
-./recommender build-tree-typed ./testdata/handcrafted-item-filtered-sorted.nt.gz
+./SchemaTreeRecommender build-tree-typed ./testdata/handcrafted-item-filtered-sorted.nt.gz
 
 # Prepare the dataset and build the Glossary
-./recommender filter-dataset for-glossary ./testdata/handcrafted-prop.nt.gz
+./SchemaTreeRecommender filter-dataset for-glossary ./testdata/handcrafted-prop.nt.gz
 gzip -cd ./testdata/handcrafted-prop-filtered.nt.gz | sed -r -e 's|^<http:\/\/www\.wikidata\.org\/entity\/P([^>]+)>|<http://www.wikidata.org/prop/direct/P\1>|g' | gzip > ./testdata/handcrafted-prop-filtered-altered.nt.gz
-./recommender build-glossary ./testdata/handcrafted-prop-filtered-altered.nt.gz
+./SchemaTreeRecommender build-glossary ./testdata/handcrafted-prop-filtered-altered.nt.gz
 
-# Start the server 
+# Start the server
 # (TODO: add information about workflow strategies)
-./recommender serve ./testdata/handcrafted-item-filtered-sorted.schemaTree.typed.bin ./testdata/handcrafted-prop-filtered-altered.glossary.bin
+./SchemaTreeRecommender serve ./testdata/handcrafted-item-filtered-sorted.schemaTree.typed.bin ./testdata/handcrafted-prop-filtered-altered.glossary.bin
 
-# Test with a request 
+# Test with a request
 curl -d '{"lang":"en","properties":["local://prop/Color"],"types":[]}' http://localhost:8080/recommender
 
 ```
@@ -94,10 +94,10 @@ If you want to run on the full wikidata dataset, grab the latest dump from https
 
 ### Performance Evaluation Details
 
-| Dataset | Results |
-| ------ | ------ |
-| Wikidata | [here](evaluation/visualization_single_evaluation_wiki.ipynb) |
-| LOD-a-lot | [here](evaluation/visualization_single_evaluation-LOD.ipynb) |
-| Backoff strategies | [here](evaluation/visualization_batch.ipynb) |
- 
+| Dataset            | Results                                                       |
+| ------------------ | ------------------------------------------------------------- |
+| Wikidata           | [here](evaluation/visualization_single_evaluation_wiki.ipynb) |
+| LOD-a-lot          | [here](evaluation/visualization_single_evaluation-LOD.ipynb)  |
+| Backoff strategies | [here](evaluation/visualization_batch.ipynb)                  |
+
 

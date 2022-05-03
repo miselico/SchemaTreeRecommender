@@ -5,13 +5,14 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"recommender/configuration"
-	recIO "recommender/io"
-	"recommender/schematree"
-	"recommender/strategy"
 	"runtime"
 	"runtime/pprof"
 	"runtime/trace"
+
+	"github.com/lgleim/SchemaTreeRecommender/configuration"
+	recIO "github.com/lgleim/SchemaTreeRecommender/io"
+	"github.com/lgleim/SchemaTreeRecommender/schematree"
+	"github.com/lgleim/SchemaTreeRecommender/strategy"
 )
 
 func main() {

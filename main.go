@@ -6,12 +6,14 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"recommender/configuration"
-	"recommender/glossary"
-	"recommender/preparation"
-	"recommender/schematree"
-	"recommender/server"
-	"recommender/strategy"
+
+	"github.com/lgleim/SchemaTreeRecommender/configuration"
+	"github.com/lgleim/SchemaTreeRecommender/glossary"
+	"github.com/lgleim/SchemaTreeRecommender/preparation"
+	"github.com/lgleim/SchemaTreeRecommender/schematree"
+	"github.com/lgleim/SchemaTreeRecommender/server"
+	"github.com/lgleim/SchemaTreeRecommender/strategy"
+
 	"time"
 
 	"runtime"

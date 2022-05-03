@@ -5,11 +5,12 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"recommender/assessment"
-	"recommender/schematree"
-	"recommender/strategy"
 	"sync"
 	"time"
+
+	"github.com/lgleim/SchemaTreeRecommender/assessment"
+	"github.com/lgleim/SchemaTreeRecommender/schematree"
+	"github.com/lgleim/SchemaTreeRecommender/strategy"
 
 	gzip "github.com/klauspost/pgzip"
 )

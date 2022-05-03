@@ -1,8 +1,9 @@
 package backoff
 
 import (
-	ST "recommender/schematree"
 	"sort"
+
+	ST "github.com/lgleim/SchemaTreeRecommender/schematree"
 )
 
 type SplitterFunc func(ST.IList) []ST.IList

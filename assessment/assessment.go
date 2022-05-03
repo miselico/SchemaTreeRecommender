@@ -5,10 +5,11 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"recommender/schematree"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/lgleim/SchemaTreeRecommender/schematree"
 )
 
 var netClient = &http.Client{

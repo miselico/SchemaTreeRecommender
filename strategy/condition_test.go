@@ -1,9 +1,10 @@
 package strategy
 
 import (
-	"recommender/assessment"
-	"recommender/schematree"
 	"testing"
+
+	"github.com/lgleim/SchemaTreeRecommender/assessment"
+	"github.com/lgleim/SchemaTreeRecommender/schematree"
 )
 
 var treePath = "../testdata/10M.nt.gz.schemaTree.bin"

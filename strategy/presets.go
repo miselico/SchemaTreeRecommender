@@ -3,10 +3,11 @@ package strategy
 // This file is responsible for holding presets for strategy definitions.
 
 import (
-	"recommender/assessment"
-	"recommender/backoff"
-	"recommender/schematree"
 	"strings"
+
+	"github.com/lgleim/SchemaTreeRecommender/assessment"
+	"github.com/lgleim/SchemaTreeRecommender/backoff"
+	"github.com/lgleim/SchemaTreeRecommender/schematree"
 )
 
 // Helper method to create a condition that always evaluates to true.

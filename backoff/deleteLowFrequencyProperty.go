@@ -3,7 +3,8 @@ package backoff
 import (
 	"errors"
 	"math"
-	ST "recommender/schematree"
+
+	ST "github.com/lgleim/SchemaTreeRecommender/schematree"
 )
 
 type StepsizeFunc func(int, int, int) int

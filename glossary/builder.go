@@ -5,8 +5,9 @@ import (
 	"encoding/gob"
 	"fmt"
 	"os"
-	"recommender/io"
-	recIO "recommender/io"
+
+	"github.com/lgleim/SchemaTreeRecommender/io"
+	recIO "github.com/lgleim/SchemaTreeRecommender/io"
 )
 
 // Key of each glossary entry.
